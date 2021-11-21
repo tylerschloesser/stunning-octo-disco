@@ -42,7 +42,7 @@ export function tick(state: State, pointer: Vec2 | null, dt: number): State {
     let target = thing.target
 
     if (pointer) {
-      if (!targetTheta) {
+      if (targetTheta === null) {
         targetTheta = Math.PI * 2 * (i / state.things.length)
       } else {
         targetTheta += (Math.PI * 2 * (dt / 1000)) / 2
