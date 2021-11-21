@@ -1,6 +1,7 @@
 import WebFont from 'webfontloader'
 import { render } from './render'
 import { getPointer } from './input'
+import { init } from './state'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -25,11 +26,13 @@ resizeObserver.observe(canvas)
 
 let lastTick: null | number = null
 
+let state = init()
+
 function onFrame(timestamp: number) {
   if (lastTick === null) {
     lastTick = timestamp
   }
-  render(context, canvas, getPointer())
+  render(context, canvas, getPointer(), state)
   window.requestAnimationFrame(onFrame)
 }
 
