@@ -23,7 +23,7 @@ export function render(
 
     if (thing.target) {
       context.beginPath()
-      context.moveTo(thing.p.x * (w / 100), thing.p.y * (h / 100))
+      context.moveTo(p.x, p.y)
       context.lineTo(thing.target.x, thing.target.y)
       context.stroke()
     }
