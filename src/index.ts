@@ -26,7 +26,8 @@ resizeObserver.observe(canvas)
 
 let lastTick: null | number = null
 
-let state = init({ w: canvas.width / 2, h: canvas.height / 2 })
+let viewport = { w: rect.width, h: rect.height }
+let state = init(viewport)
 
 function onFrame(timestamp: number) {
   const w = canvas.width
@@ -37,8 +38,8 @@ function onFrame(timestamp: number) {
   }
   lastTick = timestamp
   const pointer = getPointer()
-  state = tick(state, pointer, dt, { w, h })
-  render(context, state, { w, h })
+  state = tick(state, pointer, dt, viewport)
+  render(context, state, viewport)
   window.requestAnimationFrame(onFrame)
 }
 
