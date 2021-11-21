@@ -1,5 +1,4 @@
 import { isEqual, random, times } from 'lodash'
-import { Pointer } from './input'
 import { Vec2 } from './vec2'
 
 interface Thing {
@@ -10,7 +9,7 @@ interface Thing {
 
 export interface State {
   things: Thing[]
-  pointer: Pointer | null
+  pointer: Vec2 | null
 }
 
 export function init(): State {
@@ -25,7 +24,7 @@ export function init(): State {
   return { things, pointer: null }
 }
 
-export function tick(state: State, pointer: Pointer | null, dt: number): State {
+export function tick(state: State, pointer: Vec2 | null, dt: number): State {
   const updateTarget = !isEqual(state.pointer, pointer)
   const things = state.things.map((thing) => {
     let v = thing.v

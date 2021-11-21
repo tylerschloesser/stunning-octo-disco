@@ -1,4 +1,3 @@
-import { Pointer } from './input'
 import { State } from './state'
 
 export function render(
