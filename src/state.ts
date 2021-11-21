@@ -21,6 +21,7 @@ class Vec2 {
 interface Thing {
   p: Vec2
   v: Vec2
+  target?: Vec2
 }
 
 export interface State {
@@ -40,10 +41,12 @@ export function init(): State {
 }
 
 export function tick(state: State, pointer: Pointer | null, dt: number): State {
-  const things = state.things.map((thing) => ({
-    ...thing,
-    p: thing.p.add(thing.v.multiply(dt / 1000)),
-  }))
+  const things = state.things.map((thing) => {
+    return {
+      ...thing,
+      p: thing.p.add(thing.v.multiply(dt / 1000)),
+    }
+  })
   return {
     ...state,
     pointer,
