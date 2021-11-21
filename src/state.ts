@@ -36,7 +36,6 @@ export function init(canvas: HTMLCanvasElement, scale: number): State {
 }
 
 export function tick(state: State, pointer: Vec2 | null, dt: number): State {
-  const updateTarget = !isEqual(state.pointer, pointer)
   const things = state.things.map((thing, i) => {
     let v = thing.v
     let targetTheta = thing.targetTheta
