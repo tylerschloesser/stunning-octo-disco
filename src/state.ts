@@ -52,7 +52,7 @@ export function tick(state: State, pointer: Vec2 | null, dt: number): State {
       const targetX = Math.cos(targetTheta)
       const targetY = Math.sin(targetTheta)
       target = pointer.add(new Vec2(targetX, targetY).multiply(40))
-      v = pointer.subtract(thing.p).normalize().multiply(32)
+      v = target.subtract(thing.p).normalize().multiply(32)
     } else if (state.pointer) {
       targetTheta = null
       target = null
