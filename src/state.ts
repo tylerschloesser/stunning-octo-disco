@@ -53,7 +53,7 @@ export function tick(
       angularVelocity *= 0.5
     }
 
-    let effectivePointer = pointer?.p ?? new Vec2(w / 2, h / 2)
+    let center = pointer?.p ?? new Vec2(w / 2, h / 2)
 
     if (targetTheta === null) {
       targetTheta = Math.PI * 2 * (i / state.things.length)
@@ -63,9 +63,7 @@ export function tick(
 
     const targetX = Math.cos(targetTheta)
     const targetY = Math.sin(targetTheta)
-    target = effectivePointer.add(
-      new Vec2(targetX, targetY).multiply(size * 0.16),
-    )
+    target = center.add(new Vec2(targetX, targetY).multiply(size * 0.16))
 
     let speed = angularVelocity * size * 0.16
     speed *= Math.sqrt(target.subtract(thing.p).length())
