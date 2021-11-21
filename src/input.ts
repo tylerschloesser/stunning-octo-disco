@@ -9,8 +9,22 @@ let pointer: Pointer | null = null
 
 window.addEventListener('pointermove', (e) => {
   pointer = {
+    down: pointer?.down ?? false,
+    p: new Vec2(e.x, e.y),
+  }
+})
+
+window.addEventListener('pointerdown', (e) => {
+  pointer = {
     p: new Vec2(e.x, e.y),
     down: true,
+  }
+})
+
+window.addEventListener('pointerup', (e) => {
+  pointer = {
+    p: new Vec2(e.x, e.y),
+    down: false,
   }
 })
 
