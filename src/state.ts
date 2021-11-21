@@ -42,7 +42,7 @@ export function init(): State {
 }
 
 export function tick(state: State, pointer: Pointer | null, dt: number): State {
-  const updateTarget = isEqual(state.pointer, pointer)
+  const updateTarget = !isEqual(state.pointer, pointer)
   const things = state.things.map((thing) => {
     let v = thing.v
     let target = thing.target
