@@ -55,11 +55,13 @@ export function tick(
         targetTheta += angularVelocity * (dt / 1000)
       }
 
-      let speed = angularVelocity * size * 0.16
-
       const targetX = Math.cos(targetTheta)
       const targetY = Math.sin(targetTheta)
       target = pointer.add(new Vec2(targetX, targetY).multiply(size * 0.16))
+
+      let speed = angularVelocity * size * 0.16
+      speed *= Math.sqrt(target.subtract(thing.p).length())
+
       v = target.subtract(thing.p).normalize().multiply(speed)
     } else if (state.pointer) {
       targetTheta = null
