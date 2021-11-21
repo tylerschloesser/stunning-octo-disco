@@ -1,4 +1,5 @@
 import { State } from './state'
+import { Vec2 } from './vec2'
 
 export function render(
   context: CanvasRenderingContext2D,
@@ -12,9 +13,11 @@ export function render(
   context.fillRect(0, 0, w, h)
 
   state.things.forEach((thing) => {
+    const p = new Vec2(thing.p.x * (w / 100), thing.p.y * (h / 100))
+
     context.strokeStyle = 'cyan'
     context.beginPath()
-    context.arc(thing.p.x * (w / 100), thing.p.y * (h / 100), 4, 0, Math.PI * 2)
+    context.arc(p.x, p.y, 4, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
 
