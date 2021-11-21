@@ -1,4 +1,5 @@
 import WebFont from 'webfontloader'
+import { render } from './render'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -23,7 +24,7 @@ function onFrame(timestamp: number) {
     lastTick = timestamp
   }
 
-  context.clearRect(0, 0, canvas.width, canvas.height)
+  render(context, canvas)
 
   window.requestAnimationFrame(onFrame)
 }
