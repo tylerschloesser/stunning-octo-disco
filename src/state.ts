@@ -20,9 +20,8 @@ function randomVelocity(scale: number = 1): Vec2 {
   return new Vec2(x, y).multiply(scale)
 }
 
-export function init(canvas: HTMLCanvasElement, scale: number): State {
-  const w = canvas.width / scale
-  const h = canvas.height / scale
+export function init(viewport: { w: number; h: number }): State {
+  const { w, h } = viewport
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(w), random(h)),
@@ -35,27 +34,38 @@ export function init(canvas: HTMLCanvasElement, scale: number): State {
   return { things, pointer: null }
 }
 
-export function tick(state: State, pointer: Vec2 | null, dt: number): State {
+export function tick(
+  state: State,
+  pointer: Vec2 | null,
+  dt: number,
+  viewport: { w: number; h: number },
+): State {
+  const { w, h } = viewport
+  const size = Math.min(w, h)
   const things = state.things.map((thing, i) => {
     let v = thing.v
     let targetTheta = thing.targetTheta
     let target = thing.target
 
+    const angularVelocity = Math.PI * 2 * 0.1
     if (pointer) {
       if (targetTheta === null) {
         targetTheta = Math.PI * 2 * (i / state.things.length)
       } else {
-        targetTheta += (Math.PI * 2 * (dt / 1000)) / 2
+        targetTheta += angularVelocity * (dt / 1000)
       }
 
       const targetX = Math.cos(targetTheta)
       const targetY = Math.sin(targetTheta)
-      target = pointer.add(new Vec2(targetX, targetY).multiply(40))
-      v = target.subtract(thing.p).normalize().multiply(32)
+      target = pointer.add(new Vec2(targetX, targetY).multiply(size * 0.16))
+      v = target
+        .subtract(thing.p)
+        .normalize()
+        .multiply(angularVelocity * size * 0.16)
     } else if (state.pointer) {
       targetTheta = null
       target = null
-      v = randomVelocity(8)
+      v = v.normalize().multiply(size * 0.01)
     }
 
     return {

@@ -3,11 +3,11 @@ import { Vec2 } from './vec2'
 
 export function render(
   context: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
   state: State,
+  viewport: { w: number; h: number },
 ) {
-  const w = canvas.width
-  const h = canvas.height
+  const { w, h } = viewport
+  const size = Math.min(w, h)
   context.clearRect(0, 0, w, h)
   context.fillStyle = '#333'
   context.fillRect(0, 0, w, h)
@@ -17,7 +17,7 @@ export function render(
 
     context.strokeStyle = 'cyan'
     context.beginPath()
-    context.arc(p.x, p.y, 4, 0, Math.PI * 2)
+    context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
 
@@ -30,7 +30,7 @@ export function render(
 
     {
       context.strokeStyle = 'red'
-      const to = p.add(thing.v.normalize().multiply(8))
+      const to = p.add(thing.v.normalize().multiply(size * 0.02))
       context.beginPath()
       context.moveTo(p.x, p.y)
       context.lineTo(to.x, to.y)
@@ -42,7 +42,7 @@ export function render(
   if (pointer) {
     context.strokeStyle = 'white'
     context.beginPath()
-    context.arc(pointer.x, pointer.y, 40, 0, Math.PI * 2)
+    context.arc(pointer.x, pointer.y, size * 0.16, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
   }

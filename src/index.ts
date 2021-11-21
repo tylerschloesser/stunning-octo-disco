@@ -26,17 +26,19 @@ resizeObserver.observe(canvas)
 
 let lastTick: null | number = null
 
-let state = init(canvas, scale)
+let state = init({ w: canvas.width / 2, h: canvas.height / 2 })
 
 function onFrame(timestamp: number) {
+  const w = canvas.width
+  const h = canvas.height
   let dt = 0
   if (lastTick !== null) {
     dt = Math.max(timestamp - lastTick, 1000 / 60)
   }
   lastTick = timestamp
   const pointer = getPointer()
-  state = tick(state, pointer, dt)
-  render(context, canvas, state)
+  state = tick(state, pointer, dt, { w, h })
+  render(context, state, { w, h })
   window.requestAnimationFrame(onFrame)
 }
 
