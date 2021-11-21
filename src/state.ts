@@ -4,6 +4,7 @@ import { Vec2 } from './vec2'
 interface Thing {
   p: Vec2
   v: Vec2
+  targetTheta: number | null
   target: Vec2 | null
 }
 
@@ -26,6 +27,7 @@ export function init(canvas: HTMLCanvasElement, scale: number): State {
     return {
       p: new Vec2(random(w), random(h)),
       v: randomVelocity(8),
+      targetTheta: null,
       target: null,
     }
   })
@@ -35,22 +37,33 @@ export function init(canvas: HTMLCanvasElement, scale: number): State {
 
 export function tick(state: State, pointer: Vec2 | null, dt: number): State {
   const updateTarget = !isEqual(state.pointer, pointer)
-  const things = state.things.map((thing) => {
+  const things = state.things.map((thing, i) => {
     let v = thing.v
+    let targetTheta = thing.targetTheta
     let target = thing.target
-    if (updateTarget) {
-      if (pointer) {
-        target = new Vec2(pointer.x, pointer.y)
-        v = pointer.subtract(thing.p).normalize().multiply(16)
+
+    if (pointer) {
+      if (!targetTheta) {
+        targetTheta = Math.PI * 2 * (i / state.things.length)
       } else {
-        target = null
-        v = randomVelocity(8)
+        targetTheta += (Math.PI * 2 * (dt / 1000)) / 2
       }
+
+      const targetX = Math.cos(targetTheta)
+      const targetY = Math.sin(targetTheta)
+      target = pointer.add(new Vec2(targetX, targetY).multiply(40))
+      v = pointer.subtract(thing.p).normalize().multiply(32)
+    } else if (state.pointer) {
+      targetTheta = null
+      target = null
+      v = randomVelocity(8)
     }
+
     return {
       ...thing,
       p: thing.p.add(v.multiply(dt / 1000)),
       v,
+      targetTheta,
       target,
     }
   })
