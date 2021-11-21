@@ -55,6 +55,10 @@ export function tick(
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
     let radius = size * 0.16
+    // calculate speed before adjusting radius, so that scaled
+    // radius doesn't affect speed (should use a separate variable
+    // for speed scale?)
+    let speed = angularVelocity * radius
     if (!pointer) {
       radius *= 1.5
     } else if (pointer.down) {
@@ -71,7 +75,6 @@ export function tick(
     const targetY = Math.sin(targetTheta)
     target = center.add(new Vec2(targetX, targetY).multiply(radius))
 
-    let speed = angularVelocity * radius
     speed *= Math.sqrt(target.subtract(thing.p).length())
 
     v = target.subtract(thing.p).normalize().multiply(speed)
