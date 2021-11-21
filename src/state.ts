@@ -47,7 +47,10 @@ export function tick(
     let targetTheta = thing.targetTheta
     let target = thing.target
 
-    const angularVelocity = Math.PI * 2 * 0.1
+    let angularVelocity = Math.PI * 2 * 0.1
+    if (!pointer) {
+      angularVelocity *= 0.5
+    }
 
     let effectivePointer = pointer ?? new Vec2(w / 2, h / 2)
 
