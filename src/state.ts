@@ -1,4 +1,5 @@
 import { isEqual, random, times } from 'lodash'
+import { Pointer } from './input'
 import { Vec2 } from './vec2'
 
 interface Thing {
@@ -10,7 +11,7 @@ interface Thing {
 
 export interface State {
   things: Thing[]
-  pointer: Vec2 | null
+  pointer: Pointer | null
 }
 
 function randomVelocity(scale: number = 1): Vec2 {
@@ -36,7 +37,7 @@ export function init(viewport: { w: number; h: number }): State {
 
 export function tick(
   state: State,
-  pointer: Vec2 | null,
+  pointer: Pointer | null,
   dt: number,
   viewport: { w: number; h: number },
 ): State {
@@ -52,7 +53,7 @@ export function tick(
       angularVelocity *= 0.5
     }
 
-    let effectivePointer = pointer ?? new Vec2(w / 2, h / 2)
+    let effectivePointer = pointer?.p ?? new Vec2(w / 2, h / 2)
 
     if (targetTheta === null) {
       targetTheta = Math.PI * 2 * (i / state.things.length)

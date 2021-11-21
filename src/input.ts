@@ -1,15 +1,23 @@
 import { Vec2 } from './vec2'
 
-let pointer: Vec2 | null = null
+export interface Pointer {
+  p: Vec2
+  down: boolean
+}
+
+let pointer: Pointer | null = null
 
 window.addEventListener('pointermove', (e) => {
-  pointer = new Vec2(e.x, e.y)
+  pointer = {
+    p: new Vec2(e.x, e.y),
+    down: true,
+  }
 })
 
 window.addEventListener('pointerout', () => {
   pointer = null
 })
 
-export function getPointer(): Vec2 | null {
+export function getPointer(): Pointer | null {
   return pointer
 }

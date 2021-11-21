@@ -44,7 +44,7 @@ export function render(
   if (DEBUG && pointer) {
     context.strokeStyle = 'white'
     context.beginPath()
-    context.arc(pointer.x, pointer.y, size * 0.16, 0, Math.PI * 2)
+    context.arc(pointer.p.x, pointer.p.y, size * 0.16, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
   }
