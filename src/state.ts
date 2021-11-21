@@ -16,6 +16,15 @@ class Vec2 {
   add(v: Vec2) {
     return new Vec2(this.x + v.x, this.y + v.y)
   }
+
+  subtract(v: Vec2) {
+    return new Vec2(this.x - v.y, this.y - v.y)
+  }
+
+  normalize() {
+    const dist = Math.sqrt(this.x * this.x - this.y * this.y)
+    return new Vec2(this.x / dist, this.y / dist)
+  }
 }
 
 interface Thing {
