@@ -12,11 +12,11 @@ export interface State {
   pointer: Vec2 | null
 }
 
-function randomVelocity(): Vec2 {
+function randomVelocity(scale: number = 1): Vec2 {
   const theta = random(true) * Math.PI * 2
   const x = Math.cos(theta)
   const y = Math.sin(theta)
-  return new Vec2(x, y)
+  return new Vec2(x, y).multiply(scale)
 }
 
 export function init(canvas: HTMLCanvasElement, scale: number): State {
@@ -25,7 +25,7 @@ export function init(canvas: HTMLCanvasElement, scale: number): State {
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(w), random(h)),
-      v: randomVelocity(),
+      v: randomVelocity(8),
       target: null,
     }
   })
@@ -41,10 +41,10 @@ export function tick(state: State, pointer: Vec2 | null, dt: number): State {
     if (updateTarget) {
       if (pointer) {
         target = new Vec2(pointer.x, pointer.y)
-        v = pointer.subtract(thing.p).normalize()
+        v = pointer.subtract(thing.p).normalize().multiply(16)
       } else {
         target = null
-        v = randomVelocity()
+        v = randomVelocity(8)
       }
     }
     return {
