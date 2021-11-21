@@ -49,30 +49,24 @@ export function tick(
 
     const angularVelocity = Math.PI * 2 * 0.1
 
-    if (!pointer) {
-      pointer = new Vec2(w / 2, h / 2)
+    let effectivePointer = pointer ?? new Vec2(w / 2, h / 2)
+
+    if (targetTheta === null) {
+      targetTheta = Math.PI * 2 * (i / state.things.length)
+    } else {
+      targetTheta += angularVelocity * (dt / 1000)
     }
 
-    if (pointer) {
-      if (targetTheta === null) {
-        targetTheta = Math.PI * 2 * (i / state.things.length)
-      } else {
-        targetTheta += angularVelocity * (dt / 1000)
-      }
+    const targetX = Math.cos(targetTheta)
+    const targetY = Math.sin(targetTheta)
+    target = effectivePointer.add(
+      new Vec2(targetX, targetY).multiply(size * 0.16),
+    )
 
-      const targetX = Math.cos(targetTheta)
-      const targetY = Math.sin(targetTheta)
-      target = pointer.add(new Vec2(targetX, targetY).multiply(size * 0.16))
+    let speed = angularVelocity * size * 0.16
+    speed *= Math.sqrt(target.subtract(thing.p).length())
 
-      let speed = angularVelocity * size * 0.16
-      speed *= Math.sqrt(target.subtract(thing.p).length())
-
-      v = target.subtract(thing.p).normalize().multiply(speed)
-    } else if (state.pointer) {
-      targetTheta = null
-      target = null
-      v = v.normalize().multiply(size * 0.01)
-    }
+    v = target.subtract(thing.p).normalize().multiply(speed)
 
     return {
       ...thing,
