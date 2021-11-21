@@ -12,6 +12,10 @@ window.addEventListener('pointermove', (e) => {
   }
 })
 
+window.addEventListener('pointerout', () => {
+  pointer = null
+})
+
 export function getPointer(): Pointer | null {
   return pointer
 }
