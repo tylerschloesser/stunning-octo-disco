@@ -18,6 +18,13 @@ export function render(
     context.arc(thing.p.x * (w / 100), thing.p.y * (h / 100), 4, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
+
+    if (thing.target) {
+      context.beginPath()
+      context.moveTo(thing.p.x * (w / 100), thing.p.y * (h / 100))
+      context.lineTo(thing.target.x, thing.target.y)
+      context.stroke()
+    }
   })
 
   const { pointer } = state
