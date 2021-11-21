@@ -16,7 +16,7 @@ export function init(): State {
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(100), random(100)),
-      v: new Vec2(random(1), random(1)),
+      v: new Vec2(random(1, true), random(1, true)),
       target: null,
     }
   })

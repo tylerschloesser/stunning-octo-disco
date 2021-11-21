@@ -19,7 +19,7 @@ export class Vec2 {
   }
 
   normalize() {
-    const dist = Math.sqrt(this.x * this.x - this.y * this.y)
+    const dist = Math.sqrt(this.x * this.x + this.y * this.y)
     return new Vec2(this.x / dist, this.y / dist)
   }
 }

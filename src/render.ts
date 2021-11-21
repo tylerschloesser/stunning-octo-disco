@@ -27,6 +27,15 @@ export function render(
       context.lineTo(thing.target.x, thing.target.y)
       context.stroke()
     }
+
+    {
+      context.strokeStyle = 'red'
+      const to = p.add(thing.v.normalize().multiply(8))
+      context.beginPath()
+      context.moveTo(p.x, p.y)
+      context.lineTo(to.x, to.y)
+      context.stroke()
+    }
   })
 
   const { pointer } = state
