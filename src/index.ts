@@ -1,7 +1,7 @@
 import WebFont from 'webfontloader'
 import { render } from './render'
 import { getPointer } from './input'
-import { init } from './state'
+import { init, tick } from './state'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -29,9 +29,12 @@ let lastTick: null | number = null
 let state = init()
 
 function onFrame(timestamp: number) {
-  if (lastTick === null) {
-    lastTick = timestamp
+  let dt = 0
+  if (lastTick !== null) {
+    dt = Math.max(timestamp - lastTick, 1000 / 60)
   }
+  lastTick = timestamp
+  state = tick(state, dt)
   render(context, canvas, getPointer(), state)
   window.requestAnimationFrame(onFrame)
 }
