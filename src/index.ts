@@ -34,8 +34,9 @@ function onFrame(timestamp: number) {
     dt = Math.max(timestamp - lastTick, 1000 / 60)
   }
   lastTick = timestamp
-  state = tick(state, dt)
-  render(context, canvas, getPointer(), state)
+  const pointer = getPointer()
+  state = tick(state, pointer, dt)
+  render(context, canvas, pointer, state)
   window.requestAnimationFrame(onFrame)
 }
 

@@ -1,4 +1,5 @@
 import { random, times } from 'lodash'
+import { Pointer } from './input'
 
 class Vec2 {
   readonly x: number
@@ -37,7 +38,7 @@ export function init(): State {
   return { things }
 }
 
-export function tick(state: State, dt: number): State {
+export function tick(state: State, pointer: Pointer | null, dt: number): State {
   const things = state.things.map((thing) => ({
     ...thing,
     p: thing.p.add(thing.v.multiply(dt / 1000)),
