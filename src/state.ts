@@ -54,6 +54,12 @@ export function tick(
     }
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
+    let radius = size * 0.16
+    if (!pointer) {
+      radius *= 1.5
+    } else if (pointer.down) {
+      radius *= 0.5
+    }
 
     if (targetTheta === null) {
       targetTheta = Math.PI * 2 * (i / state.things.length)
@@ -63,9 +69,9 @@ export function tick(
 
     const targetX = Math.cos(targetTheta)
     const targetY = Math.sin(targetTheta)
-    target = center.add(new Vec2(targetX, targetY).multiply(size * 0.16))
+    target = center.add(new Vec2(targetX, targetY).multiply(radius))
 
-    let speed = angularVelocity * size * 0.16
+    let speed = angularVelocity * radius
     speed *= Math.sqrt(target.subtract(thing.p).length())
 
     v = target.subtract(thing.p).normalize().multiply(speed)
