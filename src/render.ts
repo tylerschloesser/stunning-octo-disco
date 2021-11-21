@@ -11,10 +11,11 @@ export function render(
   context.fillStyle = '#333'
   context.fillRect(0, 0, w, h)
 
-  context.fillStyle = 'white'
-  context.beginPath()
   if (pointer) {
-    context.arc(pointer.x, pointer.y, 4, 0, Math.PI * 2)
-    context.fill()
+    context.strokeStyle = 'white'
+    context.beginPath()
+    context.arc(pointer.x, pointer.y, 40, 0, Math.PI * 2)
+    context.closePath()
+    context.stroke()
   }
 }
