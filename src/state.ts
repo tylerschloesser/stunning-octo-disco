@@ -12,11 +12,18 @@ export interface State {
   pointer: Vec2 | null
 }
 
+function randomVelocity(): Vec2 {
+  const theta = random(true) * Math.PI * 2
+  const x = Math.cos(theta)
+  const y = Math.sin(theta)
+  return new Vec2(x, y)
+}
+
 export function init(): State {
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(100), random(100)),
-      v: new Vec2(random(1, true), random(1, true)),
+      v: randomVelocity(),
       target: null,
     }
   })
@@ -34,11 +41,13 @@ export function tick(state: State, pointer: Vec2 | null, dt: number): State {
         target = new Vec2(pointer.x, pointer.y)
       } else {
         target = null
+        v = randomVelocity()
       }
     }
     return {
       ...thing,
       p: thing.p.add(v.multiply(dt / 1000)),
+      v,
       target,
     }
   })
