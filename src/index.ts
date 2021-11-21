@@ -23,9 +23,7 @@ function onFrame(timestamp: number) {
   if (lastTick === null) {
     lastTick = timestamp
   }
-
   render(context, canvas)
-
   window.requestAnimationFrame(onFrame)
 }
 
