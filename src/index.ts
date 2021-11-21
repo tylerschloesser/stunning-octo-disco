@@ -26,7 +26,7 @@ resizeObserver.observe(canvas)
 
 let lastTick: null | number = null
 
-let state = init()
+let state = init(canvas, scale)
 
 function onFrame(timestamp: number) {
   let dt = 0

@@ -13,7 +13,7 @@ export function render(
   context.fillRect(0, 0, w, h)
 
   state.things.forEach((thing) => {
-    const p = new Vec2(thing.p.x * (w / 100), thing.p.y * (h / 100))
+    const { p } = thing
 
     context.strokeStyle = 'cyan'
     context.beginPath()
