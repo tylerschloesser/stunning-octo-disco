@@ -4,7 +4,6 @@ import { State } from './state'
 export function render(
   context: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
-  pointer: Pointer | null,
   state: State,
 ) {
   const w = canvas.width
@@ -21,6 +20,7 @@ export function render(
     context.stroke()
   })
 
+  const { pointer } = state
   if (pointer) {
     context.strokeStyle = 'white'
     context.beginPath()

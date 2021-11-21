@@ -25,6 +25,7 @@ interface Thing {
 
 export interface State {
   things: Thing[]
+  pointer: Pointer | null
 }
 
 export function init(): State {
@@ -35,7 +36,7 @@ export function init(): State {
     }
   })
 
-  return { things }
+  return { things, pointer: null }
 }
 
 export function tick(state: State, pointer: Pointer | null, dt: number): State {
@@ -45,6 +46,7 @@ export function tick(state: State, pointer: Pointer | null, dt: number): State {
   }))
   return {
     ...state,
+    pointer,
     things,
   }
 }
