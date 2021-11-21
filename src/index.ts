@@ -11,11 +11,16 @@ const rect = canvas.getBoundingClientRect()
 canvas.height = rect.height * scale
 canvas.width = rect.width * scale
 
-window.onresize = () => {
-  const rect = canvas.getBoundingClientRect()
-  canvas.height = rect.height
-  canvas.width = rect.width
-}
+const resizeObserver = new ResizeObserver((entries) => {
+  console.assert(
+    entries.length === 1,
+    `resize observer callback received ${entries.length} entries`,
+  )
+  const { contentRect } = entries[0]
+  canvas.height = contentRect.height
+  canvas.width = contentRect.width
+})
+resizeObserver.observe(canvas)
 
 let lastTick: null | number = null
 
