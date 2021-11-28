@@ -1,3 +1,4 @@
+import { toggleDebug } from './config'
 import { Vec2 } from './vec2'
 
 export interface Pointer {
@@ -35,3 +36,9 @@ window.addEventListener('pointerout', () => {
 export function getPointer(): Pointer | null {
   return pointer
 }
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'd') {
+    toggleDebug()
+  }
+})

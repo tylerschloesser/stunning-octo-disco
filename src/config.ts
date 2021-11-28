@@ -9,3 +9,10 @@ let config: Config = {
 export function getConfig(): Config {
   return config
 }
+
+export function toggleDebug() {
+  config = {
+    ...config,
+    debug: !config.debug,
+  }
+}
