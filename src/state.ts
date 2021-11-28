@@ -108,15 +108,19 @@ export function tick(
           // shouldn't happen?
           break
         }
+        if (!state.center) {
+          // TODO what to do when no center?
+          break
+        }
         const firstThing = state.things.shift()
         if (!firstThing) {
           break
         }
         const bullet: Bullet = {
           p: firstThing.p,
-          v: firstThing.v
+          v: firstThing.p
+            .subtract(state.center)
             .normalize()
-            .rotate(-Math.PI / 2)
             .scale(BULLET_V_SCALE),
         }
         bullets.push(bullet)
