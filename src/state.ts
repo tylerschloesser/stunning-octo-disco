@@ -20,6 +20,7 @@ interface Target {
 }
 
 export interface State {
+  center: Vec2 | null
   things: Thing[]
   bullets: Bullet[]
   pointer: Pointer | null
@@ -36,6 +37,18 @@ function randomVelocity(): Vec2 {
   const x = Math.cos(theta)
   const y = Math.sin(theta)
   return new Vec2(x, y)
+}
+
+function calculateCenter(things: Thing[]): Vec2 | null {
+  if (things.length < 2) {
+    return null
+  }
+  let center = new Vec2(0, 0)
+  things.forEach((thing) => {
+    center = center.add(thing.p)
+  })
+  center = center.scale(1 / things.length)
+  return center
 }
 
 export function init(
@@ -57,6 +70,7 @@ export function init(
   const targets = [{ p: new Vec2(random(w), random(h)) }]
 
   return {
+    center: calculateCenter(things),
     things,
     bullets: [],
     pointer: null,
@@ -194,6 +208,8 @@ export function tick(
     }
   })
 
+  const center = calculateCenter(things)
+
   bullets = bullets.map((bullet) => {
     return {
       ...bullet,
@@ -205,6 +221,7 @@ export function tick(
     ...state,
     pointer,
     things,
+    center,
     bullets,
     lastAngularVelocityChange,
   }

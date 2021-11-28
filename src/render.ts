@@ -25,16 +25,10 @@ export function render(
     context.fill()
   })
 
-  if (config.debug && state.things.length > 1) {
-    let center = new Vec2(0, 0)
-    state.things.forEach((thing) => {
-      center = center.add(thing.p)
-    })
-    center = center.scale(1 / state.things.length)
-
+  if (config.debug && state.center) {
     context.strokeStyle = 'green'
     context.beginPath()
-    context.arc(center.x, center.y, size * 0.02, 0, Math.PI * 2)
+    context.arc(state.center.x, state.center.y, size * 0.02, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
   }
