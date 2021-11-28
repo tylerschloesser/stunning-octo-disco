@@ -75,7 +75,7 @@ export function tick(
   events: Event[],
   timestamp: number,
 ): State {
-  const { bullets } = state
+  let { bullets } = state
 
   for (const event of events) {
     switch (event) {
@@ -166,10 +166,19 @@ export function tick(
       target,
     }
   })
+
+  bullets = bullets.map((bullet) => {
+    return {
+      ...bullet,
+      p: bullet.p.add(bullet.v.scale(dt / 1000)),
+    }
+  })
+
   return {
     ...state,
     pointer,
     things,
+    bullets,
     lastAngularVelocityChange,
   }
 }
