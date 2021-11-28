@@ -30,10 +30,10 @@ export function render(
     context.closePath()
     context.stroke()
 
-    if (config.debug && thing.target) {
+    if (config.debug && thing.destination) {
       context.beginPath()
       context.moveTo(p.x, p.y)
-      context.lineTo(thing.target.x, thing.target.y)
+      context.lineTo(thing.destination.x, thing.destination.y)
       context.stroke()
     }
 
