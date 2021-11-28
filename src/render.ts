@@ -1,7 +1,7 @@
 import { State } from './state'
 import { Vec2 } from './vec2'
 
-const DEBUG: boolean = false
+const DEBUG: boolean = true
 
 export function render(
   context: CanvasRenderingContext2D,
