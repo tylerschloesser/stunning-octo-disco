@@ -53,6 +53,11 @@ function calculateCenter(things: Thing[]): Vec2 | null {
   return center
 }
 
+function buildRandomTarget(viewport: { w: number; h: number }): Target {
+  const { w, h } = viewport
+  return { p: new Vec2(random(w), random(h)), r: 0.1 }
+}
+
 export function init(
   viewport: { w: number; h: number },
   thingCount = 10,
@@ -69,7 +74,7 @@ export function init(
     }
   })
 
-  const targets = [{ p: new Vec2(random(w), random(h)), r: 0.1 }]
+  const targets = [buildRandomTarget(viewport)]
 
   return {
     center: calculateCenter(things),
@@ -230,6 +235,7 @@ export function tick(
       return true
     })
     if (hit) {
+      targets.push(buildRandomTarget(viewport))
       return acc
     }
     return [
