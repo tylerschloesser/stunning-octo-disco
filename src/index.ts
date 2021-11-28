@@ -33,8 +33,6 @@ const THING_COUNT = 10
 function main() {
   let state = init(viewport, THING_COUNT, performance.now())
   function onFrame(timestamp: number) {
-    const w = canvas.width
-    const h = canvas.height
     let dt = 0
     if (lastTick !== null) {
       dt = Math.max(timestamp - lastTick, 1000 / 60)
