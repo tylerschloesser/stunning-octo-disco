@@ -35,6 +35,9 @@ export function init(viewport: { w: number; h: number }): State {
   return { things, pointer: null }
 }
 
+const INPUT_ANGULAR_VELOCITY = 0.2
+const NO_INPUT_ANGULAR_VELOCITY = 0.1
+
 export function tick(
   state: State,
   pointer: Pointer | null,
@@ -48,9 +51,9 @@ export function tick(
     let targetTheta = thing.targetTheta
     let target = thing.target
 
-    let angularVelocity = Math.PI * 2 * 0.1
+    let angularVelocity = Math.PI * 2 * INPUT_ANGULAR_VELOCITY
     if (!pointer) {
-      angularVelocity *= 0.5
+      angularVelocity = Math.PI * 2 * NO_INPUT_ANGULAR_VELOCITY
     }
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
