@@ -79,8 +79,8 @@ export function tick(
     const targetY = Math.sin(targetTheta)
     target = center.add(new Vec2(targetX, targetY).multiply(radius))
 
-    let speed =
-      angularVelocity * radius * Math.sqrt(target.subtract(thing.p).length())
+    const dist = target.subtract(thing.p).length()
+    let speed = angularVelocity * radius * Math.sqrt(dist)
 
     v = target.subtract(thing.p).normalize().multiply(speed)
 
