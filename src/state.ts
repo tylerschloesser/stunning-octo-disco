@@ -9,8 +9,14 @@ interface Thing {
   target: Vec2 | null
 }
 
+interface Bullet {
+  p: Vec2
+  v: Vec2
+}
+
 export interface State {
   things: Thing[]
+  bullets: Bullet[]
   pointer: Pointer | null
 }
 
@@ -32,7 +38,7 @@ export function init(viewport: { w: number; h: number }): State {
     }
   })
 
-  return { things, pointer: null }
+  return { things, bullets: [], pointer: null }
 }
 
 const POINTER_UP_ANGULAR_VELOCITY = 0.4
