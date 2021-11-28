@@ -1,6 +1,10 @@
 import { toggleDebug } from './config'
 import { Vec2 } from './vec2'
 
+export enum Event {
+  Shoot = 'shoot',
+}
+
 export interface Pointer {
   p: Vec2
   down: boolean

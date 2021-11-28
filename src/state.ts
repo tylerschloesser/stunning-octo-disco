@@ -1,5 +1,5 @@
 import { random, times } from 'lodash'
-import { Pointer } from './input'
+import { Pointer, Event } from './input'
 import { Vec2 } from './vec2'
 
 interface Thing {
@@ -59,6 +59,7 @@ export function tick(
   pointer: Pointer | null,
   dt: number,
   viewport: { w: number; h: number },
+  events: Event[],
 ): State {
   const { w, h } = viewport
   const size = Math.min(w, h)
