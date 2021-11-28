@@ -19,8 +19,8 @@ const resizeObserver = new ResizeObserver((entries) => {
     `resize observer callback received ${entries.length} entries`,
   )
   const { contentRect } = entries[0]
-  canvas.height = contentRect.height
-  canvas.width = contentRect.width
+  viewport.h = canvas.height = contentRect.height
+  viewport.w = canvas.width = contentRect.width
 })
 resizeObserver.observe(canvas)
 
