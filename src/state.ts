@@ -37,9 +37,9 @@ export function init(viewport: { w: number; h: number }): State {
 
 const INPUT_ANGULAR_VELOCITY = 0.2
 const NO_INPUT_ANGULAR_VELOCITY = 0.1
-const THING_RADIUS_SCALE = 0.16
-const POINTER_DOWN_THING_RADIUS_SCALE = 0.08
-const NO_POINTER_THING_RADIUS_SCALE = 0.24
+const POINTER_UP_RADIUS_SCALE = 0.16
+const POINTER_DOWN_RADIUS_SCALE = 0.08
+const NO_POINTER_RADIUS_SCALE = 0.24
 
 export function tick(
   state: State,
@@ -60,15 +60,16 @@ export function tick(
     }
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
-    let radius = size * THING_RADIUS_SCALE
+    let radius = size * POINTER_UP_RADIUS_SCALE
     // calculate speed before adjusting radius, so that scaled
     // radius doesn't affect speed (should use a separate variable
     // for speed scale?)
     let speed = angularVelocity * radius
+
     if (!pointer) {
-      radius = size * NO_POINTER_THING_RADIUS_SCALE
+      radius = size * NO_POINTER_RADIUS_SCALE
     } else if (pointer.down) {
-      radius = size * POINTER_DOWN_THING_RADIUS_SCALE
+      radius = size * POINTER_DOWN_RADIUS_SCALE
     }
 
     if (targetTheta === null) {
