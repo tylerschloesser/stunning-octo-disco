@@ -7,6 +7,7 @@ interface Thing {
   v: Vec2
   targetTheta: number | null
   target: Vec2 | null
+  nextBulletTimestamp: number | null
 }
 
 interface Bullet {
@@ -35,14 +36,16 @@ function randomVelocity(): Vec2 {
 export function init(
   viewport: { w: number; h: number },
   thingCount = 10,
+  timestamp: number,
 ): State {
   const { w, h } = viewport
-  const things: Thing[] = times(thingCount, () => {
+  const things: Thing[] = times(thingCount, (i) => {
     return {
       p: new Vec2(random(w), random(h)),
       v: randomVelocity().scale(8),
       targetTheta: null,
       target: null,
+      nextBulletTimestamp: i === 0 ? timestamp : null,
     }
   })
 
@@ -78,6 +81,9 @@ export function tick(
     switch (event) {
       case Event.Shoot: {
         bullets.push(state.things.shift()!)
+        if (state.things.length) {
+          state.things[0].nextBulletTimestamp = timestamp
+        }
         break
       }
     }

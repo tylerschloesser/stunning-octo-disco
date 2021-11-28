@@ -27,19 +27,24 @@ resizeObserver.observe(canvas)
 let lastTick: null | number = null
 
 let viewport = { w: rect.width, h: rect.height }
-let state = init(viewport)
 
-function onFrame(timestamp: number) {
-  const w = canvas.width
-  const h = canvas.height
-  let dt = 0
-  if (lastTick !== null) {
-    dt = Math.max(timestamp - lastTick, 1000 / 60)
+const THING_COUNT = 10
+
+function main() {
+  let state = init(viewport, THING_COUNT, performance.now())
+  function onFrame(timestamp: number) {
+    const w = canvas.width
+    const h = canvas.height
+    let dt = 0
+    if (lastTick !== null) {
+      dt = Math.max(timestamp - lastTick, 1000 / 60)
+    }
+    lastTick = timestamp
+    const pointer = getPointer()
+    state = tick(state, pointer, dt, viewport, getEvents(), timestamp)
+    render(context, state, viewport, timestamp)
+    window.requestAnimationFrame(onFrame)
   }
-  lastTick = timestamp
-  const pointer = getPointer()
-  state = tick(state, pointer, dt, viewport, getEvents(), timestamp)
-  render(context, state, viewport)
   window.requestAnimationFrame(onFrame)
 }
 
@@ -47,9 +52,7 @@ WebFont.load({
   google: {
     families: ['Space Mono'],
   },
-  active: () => {
-    window.requestAnimationFrame(onFrame)
-  },
+  active: main,
   inactive: () => {
     alert('Failed to load fonts')
   },

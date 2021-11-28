@@ -5,6 +5,7 @@ export function render(
   context: CanvasRenderingContext2D,
   state: State,
   viewport: { w: number; h: number },
+  timestamp: number,
 ) {
   const config = getConfig()
   const { w, h } = viewport
@@ -16,7 +17,13 @@ export function render(
   state.things.forEach((thing, i) => {
     const { p } = thing
 
-    context.strokeStyle = i === 0 ? 'magenta' : 'cyan'
+    context.strokeStyle = 'cyan'
+    if (
+      thing.nextBulletTimestamp &&
+      timestamp > thing.nextBulletTimestamp + 1000
+    ) {
+      context.strokeStyle = 'magenta'
+    }
     context.beginPath()
     context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
     context.closePath()
