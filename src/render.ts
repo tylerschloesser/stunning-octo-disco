@@ -13,10 +13,10 @@ export function render(
   context.fillStyle = '#333'
   context.fillRect(0, 0, w, h)
 
-  state.things.forEach((thing) => {
+  state.things.forEach((thing, i) => {
     const { p } = thing
 
-    context.strokeStyle = 'cyan'
+    context.strokeStyle = i === 0 ? 'magenta' : 'cyan'
     context.beginPath()
     context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
     context.closePath()
