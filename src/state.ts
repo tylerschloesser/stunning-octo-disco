@@ -27,9 +27,12 @@ function randomVelocity(): Vec2 {
   return new Vec2(x, y)
 }
 
-export function init(viewport: { w: number; h: number }): State {
+export function init(
+  viewport: { w: number; h: number },
+  thingCount = 10,
+): State {
   const { w, h } = viewport
-  const things: Thing[] = times(10, () => {
+  const things: Thing[] = times(thingCount, () => {
     return {
       p: new Vec2(random(w), random(h)),
       v: randomVelocity().scale(8),
