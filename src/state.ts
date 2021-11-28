@@ -101,6 +101,7 @@ export function tick(
         state.lastAngularVelocityChange.angularVelocity *
           ((timestamp - state.lastAngularVelocityChange.timestamp) / 1000)
     }
+    baseTargetTheta %= Math.PI * 2
     lastAngularVelocityChange = {
       timestamp,
       baseTargetTheta,
