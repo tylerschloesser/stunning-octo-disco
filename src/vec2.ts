@@ -33,4 +33,10 @@ export class Vec2 {
   dist() {
     return this.length()
   }
+
+  rotate(theta: number) {
+    const cos = Math.cos(theta)
+    const sin = Math.sin(theta)
+    return new Vec2(cos * this.x - sin * this.y, sin * this.x + cos * this.y)
+  }
 }

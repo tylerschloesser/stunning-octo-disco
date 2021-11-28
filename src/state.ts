@@ -100,7 +100,10 @@ export function tick(
         }
         const bullet: Bullet = {
           p: firstThing.p,
-          v: firstThing.p.subtract(pointer.p).normalize().scale(BULLET_V_SCALE),
+          v: firstThing.v
+            .normalize()
+            .rotate(-Math.PI / 2)
+            .scale(BULLET_V_SCALE),
         }
         bullets.push(bullet)
         if (state.things.length) {
