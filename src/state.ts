@@ -1,4 +1,4 @@
-import { isEqual, random, times } from 'lodash'
+import { random, times } from 'lodash'
 import { Pointer } from './input'
 import { Vec2 } from './vec2'
 
