@@ -15,7 +15,7 @@ export class Vec2 {
   }
 
   subtract(v: Vec2) {
-    return new Vec2(this.x - v.x, this.y - v.y)
+    return this.add(v.multiply(-1))
   }
 
   normalize() {
