@@ -217,7 +217,21 @@ export function tick(
 
   const center = calculateCenter(things)
 
+  let targets = state.targets
   bullets = bullets.reduce<Bullet[]>((acc, bullet) => {
+    let hit = false
+    targets = targets.filter((target) => {
+      const dist = bullet.p.subtract(target.p).dist()
+      const threshold = bullet.r * size + target.r * size
+      if (dist < threshold) {
+        hit = true
+        return false
+      }
+      return true
+    })
+    if (hit) {
+      return acc
+    }
     return [
       ...acc,
       {
@@ -233,6 +247,7 @@ export function tick(
     things,
     center,
     bullets,
+    targets,
     lastAngularVelocityChange,
   }
 }
