@@ -47,6 +47,15 @@ export function render(
     }
   })
 
+  state.bullets.forEach((bullet) => {
+    context.strokeStyle = 'magenta'
+    const { p } = bullet
+    context.beginPath()
+    context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
+    context.closePath()
+    context.stroke()
+  })
+
   const { pointer } = state
   if (config.debug && pointer) {
     context.strokeStyle = 'white'
