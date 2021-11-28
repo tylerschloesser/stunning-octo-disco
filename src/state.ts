@@ -1,5 +1,5 @@
 import { random, times } from 'lodash'
-import { Pointer, Event } from './input'
+import { Event, Pointer } from './input'
 import { Vec2 } from './vec2'
 
 interface Thing {
@@ -18,6 +18,11 @@ export interface State {
   things: Thing[]
   bullets: Bullet[]
   pointer: Pointer | null
+  lastAngularVelocityChange: null | {
+    angularVelocity: number
+    baseTargetTheta: number
+    timestamp: number
+  }
 }
 
 function randomVelocity(): Vec2 {
@@ -41,7 +46,12 @@ export function init(
     }
   })
 
-  return { things, bullets: [], pointer: null }
+  return {
+    things,
+    bullets: [],
+    pointer: null,
+    lastAngularVelocityChange: null,
+  }
 }
 
 const POINTER_UP_ANGULAR_VELOCITY = 0.4
@@ -60,24 +70,55 @@ export function tick(
   dt: number,
   viewport: { w: number; h: number },
   events: Event[],
+  timestamp: number,
 ): State {
-  if (events.length) {
-    console.log('todo handle', events)
+  const { bullets } = state
+
+  for (const event of events) {
+    switch (event) {
+      case Event.Shoot: {
+        bullets.push(state.things.shift()!)
+        break
+      }
+    }
   }
+
+  let angularVelocity = Math.PI * 2
+  if (!pointer) {
+    angularVelocity *= NO_POINTER_ANGULAR_VELOCITY
+  } else if (pointer.down) {
+    angularVelocity *= POINTER_DOWN_ANGULAR_VELOCITY
+  } else {
+    angularVelocity *= POINTER_UP_ANGULAR_VELOCITY
+  }
+
+  let lastAngularVelocityChange: State['lastAngularVelocityChange']
+  if (angularVelocity !== state.lastAngularVelocityChange?.angularVelocity) {
+    let baseTargetTheta = 0
+    if (state.lastAngularVelocityChange !== null) {
+      baseTargetTheta =
+        state.lastAngularVelocityChange.baseTargetTheta +
+        state.lastAngularVelocityChange.angularVelocity *
+          ((timestamp - state.lastAngularVelocityChange.timestamp) / 1000)
+    }
+    lastAngularVelocityChange = {
+      timestamp,
+      baseTargetTheta,
+      angularVelocity,
+    }
+  } else {
+    lastAngularVelocityChange = state.lastAngularVelocityChange!
+  }
+
+  let baseTargetTheta =
+    (state.lastAngularVelocityChange?.baseTargetTheta ?? 0) +
+    angularVelocity * ((timestamp - lastAngularVelocityChange.timestamp) / 1000)
+  baseTargetTheta %= Math.PI * 2
+
   const { w, h } = viewport
   const size = Math.min(w, h)
   const things = state.things.map((thing, i) => {
-    let targetTheta = thing.targetTheta
     let target = thing.target
-
-    let angularVelocity = Math.PI * 2
-    if (!pointer) {
-      angularVelocity *= NO_POINTER_ANGULAR_VELOCITY
-    } else if (pointer.down) {
-      angularVelocity *= POINTER_DOWN_ANGULAR_VELOCITY
-    } else {
-      angularVelocity *= POINTER_UP_ANGULAR_VELOCITY
-    }
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
     let radius = size * POINTER_UP_RADIUS_SCALE
@@ -88,12 +129,11 @@ export function tick(
       radius = size * POINTER_DOWN_RADIUS_SCALE
     }
 
-    if (targetTheta === null) {
-      targetTheta = Math.PI * 2 * (i / state.things.length)
-    } else {
-      targetTheta =
-        (targetTheta + angularVelocity * (dt / 1000)) % (Math.PI * 2)
-    }
+    let targetTheta = thing.targetTheta
+
+    targetTheta =
+      (Math.PI * 2 * (i / state.things.length) + baseTargetTheta) %
+      (Math.PI * 2)
 
     const targetX = Math.cos(targetTheta)
     const targetY = Math.sin(targetTheta)
@@ -123,5 +163,6 @@ export function tick(
     ...state,
     pointer,
     things,
+    lastAngularVelocityChange,
   }
 }

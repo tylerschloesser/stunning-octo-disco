@@ -38,7 +38,7 @@ function onFrame(timestamp: number) {
   }
   lastTick = timestamp
   const pointer = getPointer()
-  state = tick(state, pointer, dt, viewport, getEvents())
+  state = tick(state, pointer, dt, viewport, getEvents(), timestamp)
   render(context, state, viewport)
   window.requestAnimationFrame(onFrame)
 }
