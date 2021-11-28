@@ -1,5 +1,6 @@
 import { getConfig } from './config'
 import { State } from './state'
+import Color from 'color'
 
 export function render(
   context: CanvasRenderingContext2D,
@@ -14,15 +15,15 @@ export function render(
   context.fillStyle = '#333'
   context.fillRect(0, 0, w, h)
 
-  state.things.forEach((thing, i) => {
+  state.things.forEach((thing) => {
     const { p } = thing
 
     context.strokeStyle = 'cyan'
-    if (
-      thing.nextBulletTimestamp &&
-      timestamp > thing.nextBulletTimestamp + 1000
-    ) {
-      context.strokeStyle = 'magenta'
+    if (thing.nextBulletTimestamp) {
+      const DUR = 250
+      const dt = Math.min(timestamp - thing.nextBulletTimestamp, DUR)
+      const color = Color('cyan').mix(Color('magenta'), dt / DUR)
+      context.strokeStyle = color.toString()
     }
     context.beginPath()
     context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
