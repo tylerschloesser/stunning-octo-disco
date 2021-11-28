@@ -26,7 +26,7 @@ export function init(viewport: { w: number; h: number }): State {
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(w), random(h)),
-      v: randomVelocity().multiply(8),
+      v: randomVelocity().scale(8),
       targetTheta: null,
       target: null,
     }
