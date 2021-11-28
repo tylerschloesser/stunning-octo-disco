@@ -11,6 +11,16 @@ export interface Pointer {
 }
 
 let pointer: Pointer | null = null
+export function getPointer(): Pointer | null {
+  return pointer
+}
+
+let events: Event[] = []
+export function getEvents(): Event[] {
+  const value = events
+  events = []
+  return value
+}
 
 window.addEventListener('pointermove', (e) => {
   pointer = {
@@ -31,15 +41,13 @@ window.addEventListener('pointerup', (e) => {
     p: new Vec2(e.x, e.y),
     down: false,
   }
+  // TODO debounce
+  events.push(Event.Shoot)
 })
 
 window.addEventListener('pointerout', () => {
   pointer = null
 })
-
-export function getPointer(): Pointer | null {
-  return pointer
-}
 
 window.addEventListener('keydown', (e) => {
   if (e.key === 'd') {

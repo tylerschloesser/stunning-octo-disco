@@ -1,6 +1,6 @@
 import WebFont from 'webfontloader'
 import { render } from './render'
-import { getPointer } from './input'
+import { getEvents, getPointer } from './input'
 import { init, tick } from './state'
 
 const canvas = document.querySelector('canvas')!
@@ -38,7 +38,7 @@ function onFrame(timestamp: number) {
   }
   lastTick = timestamp
   const pointer = getPointer()
-  state = tick(state, pointer, dt, viewport, [])
+  state = tick(state, pointer, dt, viewport, getEvents())
   render(context, state, viewport)
   window.requestAnimationFrame(onFrame)
 }

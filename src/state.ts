@@ -61,6 +61,9 @@ export function tick(
   viewport: { w: number; h: number },
   events: Event[],
 ): State {
+  if (events.length) {
+    console.log('todo handle', events)
+  }
   const { w, h } = viewport
   const size = Math.min(w, h)
   const things = state.things.map((thing, i) => {
