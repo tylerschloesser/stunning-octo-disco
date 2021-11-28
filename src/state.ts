@@ -14,11 +14,11 @@ export interface State {
   pointer: Pointer | null
 }
 
-function randomVelocity(scale: number = 1): Vec2 {
+function randomVelocity(): Vec2 {
   const theta = random(true) * Math.PI * 2
   const x = Math.cos(theta)
   const y = Math.sin(theta)
-  return new Vec2(x, y).multiply(scale)
+  return new Vec2(x, y)
 }
 
 export function init(viewport: { w: number; h: number }): State {
@@ -26,7 +26,7 @@ export function init(viewport: { w: number; h: number }): State {
   const things: Thing[] = times(10, () => {
     return {
       p: new Vec2(random(w), random(h)),
-      v: randomVelocity(8),
+      v: randomVelocity().multiply(8),
       targetTheta: null,
       target: null,
     }
