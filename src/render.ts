@@ -1,6 +1,7 @@
 import { getConfig } from './config'
 import { State } from './state'
 import Color from 'color'
+import { Vec2 } from './vec2'
 
 export function render(
   context: CanvasRenderingContext2D,
@@ -23,6 +24,20 @@ export function render(
     context.closePath()
     context.fill()
   })
+
+  if (config.debug && state.things.length > 1) {
+    let center = new Vec2(0, 0)
+    state.things.forEach((thing) => {
+      center = center.add(thing.p)
+    })
+    center = center.scale(1 / state.things.length)
+
+    context.strokeStyle = 'green'
+    context.beginPath()
+    context.arc(center.x, center.y, size * 0.02, 0, Math.PI * 2)
+    context.closePath()
+    context.stroke()
+  }
 
   state.things.forEach((thing) => {
     const { p } = thing
