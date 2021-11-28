@@ -215,12 +215,15 @@ export function tick(
 
   const center = calculateCenter(things)
 
-  bullets = bullets.map((bullet) => {
-    return {
-      ...bullet,
-      p: bullet.p.add(bullet.v.scale(dt / 1000)),
-    }
-  })
+  bullets = bullets.reduce<Bullet[]>((acc, bullet) => {
+    return [
+      ...acc,
+      {
+        ...bullet,
+        p: bullet.p.add(bullet.v.scale(dt / 1000)),
+      },
+    ]
+  }, [])
 
   return {
     ...state,
