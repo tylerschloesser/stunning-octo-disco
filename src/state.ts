@@ -83,13 +83,16 @@ export function tick(
 
     const v = target.subtract(thing.p).normalize().multiply(speed)
     const dp = v.multiply(dt / 1000)
+    let nextP: Vec2
     if (dp.dist() > dist) {
-      dp.scale(dist / dp.dist())
+      nextP = target
+    } else {
+      nextP = thing.p.add(dp)
     }
 
     return {
       ...thing,
-      p: thing.p.add(dp),
+      p: nextP,
       v,
       targetTheta,
       target,
