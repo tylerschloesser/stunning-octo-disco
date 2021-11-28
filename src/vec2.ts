@@ -20,7 +20,7 @@ export class Vec2 {
 
   normalize() {
     const dist = this.length()
-    return new Vec2(this.x / dist, this.y / dist)
+    return this.multiply(1 / dist)
   }
 
   length() {
