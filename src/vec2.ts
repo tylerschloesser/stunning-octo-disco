@@ -35,6 +35,7 @@ export class Vec2 {
   }
 
   rotate(theta: number) {
+    // https://matthew-brett.github.io/teaching/rotation_2d.html
     const cos = Math.cos(theta)
     const sin = Math.sin(theta)
     return new Vec2(cos * this.x - sin * this.y, sin * this.x + cos * this.y)
