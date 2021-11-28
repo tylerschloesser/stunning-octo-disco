@@ -13,6 +13,7 @@ interface Thing {
 interface Bullet {
   p: Vec2
   v: Vec2
+  r: number
 }
 
 interface Target {
@@ -123,6 +124,7 @@ export function tick(
             .subtract(state.center)
             .normalize()
             .scale(BULLET_V_SCALE),
+          r: 0.02,
         }
         bullets.push(bullet)
         if (state.things.length) {

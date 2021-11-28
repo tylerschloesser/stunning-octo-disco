@@ -69,7 +69,7 @@ export function render(
     context.strokeStyle = 'magenta'
     const { p } = bullet
     context.beginPath()
-    context.arc(p.x, p.y, size * 0.02, 0, Math.PI * 2)
+    context.arc(p.x, p.y, size * bullet.r, 0, Math.PI * 2)
     context.closePath()
     context.stroke()
   })
