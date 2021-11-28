@@ -35,11 +35,15 @@ export function init(viewport: { w: number; h: number }): State {
   return { things, pointer: null }
 }
 
-const INPUT_ANGULAR_VELOCITY = 0.2
-const NO_INPUT_ANGULAR_VELOCITY = 0.1
+const POINTER_UP_ANGULAR_VELOCITY = 0.4
+const POINTER_DOWN_ANGULAR_VELOCITY = 0.2
+const NO_POINTER_ANGULAR_VELOCITY = 0.1
+
 const POINTER_UP_RADIUS_SCALE = 0.16
 const POINTER_DOWN_RADIUS_SCALE = 0.08
 const NO_POINTER_RADIUS_SCALE = 0.24
+
+const SPEED_SCALE = 100
 
 export function tick(
   state: State,
@@ -53,9 +57,13 @@ export function tick(
     let targetTheta = thing.targetTheta
     let target = thing.target
 
-    let angularVelocity = Math.PI * 2 * INPUT_ANGULAR_VELOCITY
+    let angularVelocity = Math.PI * 2
     if (!pointer) {
-      angularVelocity = Math.PI * 2 * NO_INPUT_ANGULAR_VELOCITY
+      angularVelocity *= NO_POINTER_ANGULAR_VELOCITY
+    } else if (pointer.down) {
+      angularVelocity *= POINTER_DOWN_ANGULAR_VELOCITY
+    } else {
+      angularVelocity *= POINTER_UP_ANGULAR_VELOCITY
     }
 
     let center = pointer?.p ?? new Vec2(w / 2, h / 2)
@@ -79,7 +87,7 @@ export function tick(
     target = center.add(new Vec2(targetX, targetY).multiply(radius))
 
     const dist = target.subtract(thing.p).dist()
-    let speed = angularVelocity * radius * Math.sqrt(dist)
+    let speed = Math.sqrt(dist) * SPEED_SCALE
 
     const v = target.subtract(thing.p).normalize().multiply(speed)
     const dp = v.multiply(dt / 1000)
