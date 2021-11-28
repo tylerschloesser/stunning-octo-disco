@@ -67,6 +67,8 @@ const NO_POINTER_RADIUS_SCALE = 0.24
 
 const SPEED_SCALE = 100
 
+const BULLET_V_SCALE = 1000
+
 export function tick(
   state: State,
   pointer: Pointer | null,
@@ -80,7 +82,19 @@ export function tick(
   for (const event of events) {
     switch (event) {
       case Event.Shoot: {
-        bullets.push(state.things.shift()!)
+        if (!pointer) {
+          // shouldn't happen?
+          break
+        }
+        const firstThing = state.things.shift()
+        if (!firstThing) {
+          break
+        }
+        const bullet: Bullet = {
+          p: firstThing.p,
+          v: firstThing.p.subtract(pointer.p).normalize().scale(BULLET_V_SCALE),
+        }
+        bullets.push(bullet)
         if (state.things.length) {
           state.things[0].nextBulletTimestamp = timestamp
         }
