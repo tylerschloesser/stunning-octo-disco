@@ -20,7 +20,7 @@ export function render(
     context.fillStyle = new Color('white').fade(0.8).toString()
     const { p } = target
     context.beginPath()
-    context.arc(p.x, p.y, size * 0.1, 0, Math.PI * 2)
+    context.arc(p.x, p.y, size * target.r, 0, Math.PI * 2)
     context.closePath()
     context.fill()
   })

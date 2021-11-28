@@ -17,6 +17,7 @@ interface Bullet {
 
 interface Target {
   p: Vec2
+  r: number
 }
 
 export interface State {
@@ -67,7 +68,7 @@ export function init(
     }
   })
 
-  const targets = [{ p: new Vec2(random(w), random(h)) }]
+  const targets = [{ p: new Vec2(random(w), random(h)), r: 0.1 }]
 
   return {
     center: calculateCenter(things),
