@@ -28,6 +28,7 @@ export interface State {
     baseDestinationTheta: number
     timestamp: number
   }
+  targets: Target[]
 }
 
 function randomVelocity(): Vec2 {
@@ -53,11 +54,14 @@ export function init(
     }
   })
 
+  const targets = [{ p: new Vec2(random(w), random(h)) }]
+
   return {
     things,
     bullets: [],
     pointer: null,
     lastAngularVelocityChange: null,
+    targets,
   }
 }
 
