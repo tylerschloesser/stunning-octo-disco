@@ -1,13 +1,12 @@
+import { getConfig } from './config'
 import { State } from './state'
-import { Vec2 } from './vec2'
-
-const DEBUG: boolean = true
 
 export function render(
   context: CanvasRenderingContext2D,
   state: State,
   viewport: { w: number; h: number },
 ) {
+  const config = getConfig()
   const { w, h } = viewport
   const size = Math.min(w, h)
   context.clearRect(0, 0, w, h)
@@ -23,14 +22,14 @@ export function render(
     context.closePath()
     context.stroke()
 
-    if (DEBUG && thing.target) {
+    if (config.debug && thing.target) {
       context.beginPath()
       context.moveTo(p.x, p.y)
       context.lineTo(thing.target.x, thing.target.y)
       context.stroke()
     }
 
-    if (DEBUG) {
+    if (config.debug) {
       context.strokeStyle = 'red'
       const to = p.add(thing.v.normalize().multiply(size * 0.02))
       context.beginPath()
@@ -41,7 +40,7 @@ export function render(
   })
 
   const { pointer } = state
-  if (DEBUG && pointer) {
+  if (config.debug && pointer) {
     context.strokeStyle = 'white'
     context.beginPath()
     context.arc(pointer.p.x, pointer.p.y, size * 0.16, 0, Math.PI * 2)
