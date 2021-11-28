@@ -50,7 +50,6 @@ export function tick(
   const { w, h } = viewport
   const size = Math.min(w, h)
   const things = state.things.map((thing, i) => {
-    let v = thing.v
     let targetTheta = thing.targetTheta
     let target = thing.target
 
@@ -79,14 +78,18 @@ export function tick(
     const targetY = Math.sin(targetTheta)
     target = center.add(new Vec2(targetX, targetY).multiply(radius))
 
-    const dist = target.subtract(thing.p).length()
+    const dist = target.subtract(thing.p).dist()
     let speed = angularVelocity * radius * Math.sqrt(dist)
 
-    v = target.subtract(thing.p).normalize().multiply(speed)
+    const v = target.subtract(thing.p).normalize().multiply(speed)
+    const dp = v.multiply(dt / 1000)
+    if (dp.dist() > dist) {
+      dp.scale(dist / dp.dist())
+    }
 
     return {
       ...thing,
-      p: thing.p.add(v.multiply(dt / 1000)),
+      p: thing.p.add(dp),
       v,
       targetTheta,
       target,
